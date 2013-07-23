@@ -15,7 +15,17 @@ class ElasticSearch_Facet_Widget extends WP_Widget {
 
     function get_elasticsearch_facet_area() {
         global $elasticaFacets;
-        if ( !empty( $elasticaFacets ) ): ?>
+        if ( !empty( $elasticaFacets ) ):
+
+            if( ! isset( $_GET['tags'] ) )
+                $_GET['tags'] = '';
+
+            if( ! isset( $_GET['cats'] ) )
+                $_GET['cats'] = '';
+
+            if( ! isset( $_GET['author'] ) )
+                $_GET['author'] = '';
+        ?>
             <?php if ( ( get_option( 'elasticsearch_result_tags_facet' ) ) ): ?>
             <?php if ( !empty( $elasticaFacets['tags']['terms'] ) ): ?>
                 <!-- Tags -->
@@ -41,7 +51,7 @@ class ElasticSearch_Facet_Widget extends WP_Widget {
                         <?php foreach ( $elasticaFacets['cats']['terms'] as $elasticaFacet ) { $i++; ?>
                         <li style="list-style-type: none;">
                             <input type="checkbox" name="facet-cats" value="<?php  echo $elasticaFacet['term']; ?>" id="cats_<?php echo $i; ?>" class="cats" onclick="searchlink('cats')" <?php echo (strpos(htmlspecialchars(urldecode($_GET['cats'])), $elasticaFacet['term']) > -1) ? "checked":""; ?>/>
-                            <label for="cats_<?php echo $i; ?>" class="facet-search-link"><?php  echo $elasticaFacet['term']; ?></label>
+                            <label for="cats_<?php echo $i; ?>" class="facet-search-link"><?php echo $elasticaFacet['term']; ?></label>
                         </li>
                         <?php } ?>
                     </ul>
@@ -95,7 +105,8 @@ class ElasticSearch_Facet_Widget extends WP_Widget {
     //Front-end display
     function widget( $args, $instance ) {
         global $elasticaFacets;
-        if ( !empty( $elasticaFacets ) ) {
+
+        if ( ! empty( $elasticaFacets ) ) {
             extract( $args );
             $title = apply_filters( 'widget_title', $instance['title'] );
             echo $before_widget;
