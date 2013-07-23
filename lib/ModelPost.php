@@ -42,9 +42,13 @@ class ModelPost extends ModelBase {
 
 
     public function buildIndexData() {
+        $documentToIndex = array();
+
         //post fields
-        foreach (self::$fieldsToIndex as $fieldName => $nameInIndex) {
-            $documentToIndex[$nameInIndex] = $this->post->$fieldName;
+        if( $this->post ) {
+            foreach (self::$fieldsToIndex as $fieldName => $nameInIndex) {
+                $documentToIndex[$nameInIndex] = $this->post->$fieldName;
+            }
         }
 
         //tags
