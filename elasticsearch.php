@@ -75,7 +75,7 @@ class Wp_ElasticSearch
         $this->elasticsearch_result_author_facet = get_option("elasticsearch_result_author_facet");
 
         //misc.
-        $this->plugin_url = plugins_url() . DIRECTORY_SEPARATOR . basename(dirname(__FILE__)) . DIRECTORY_SEPARATOR;
+        $this->plugin_url = plugins_url( DIRECTORY_SEPARATOR, __FILE__ );
     }
 
     //plugin init
